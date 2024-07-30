@@ -1,7 +1,11 @@
+import platform
+
 import pandas as pd
 
 
 def main():
+    os = platform.system()
+
     # excel_list = ['/Users/user/Desktop/엑셀파일/raw/장부내역.xlsx', '/Users/user/Desktop/엑셀파일/raw/정산거래처내역.xlsx']
 
     # 파일 경로 설정
@@ -42,9 +46,14 @@ def main():
     print("정산거래처내역 only 결과:")
     print(second_result_df)
 
-    with pd.ExcelWriter('/Users/user/Desktop/엑셀파일/result/결과.xlsx') as writer:
-        first_result_df.to_excel(writer, sheet_name='정산거래처내역에 없는 케이스', index=False)
-        second_result_df.to_excel(writer, sheet_name='장부내역에 없는 케이스', index=False)
+    if os == "Windows":
+        with pd.ExcelWriter(r'C:\Users\USER\Desktop\결과\결과.xlsx') as writer:
+            first_result_df.to_excel(writer, sheet_name='정산거래처내역에 없는 케이스', index=False)
+            second_result_df.to_excel(writer, sheet_name='장부내역에 없는 케이스', index=False)
+    else:
+        with pd.ExcelWriter('/Users/user/Desktop/엑셀파일/result/결과.xlsx') as writer:
+            first_result_df.to_excel(writer, sheet_name='정산거래처내역에 없는 케이스', index=False)
+            second_result_df.to_excel(writer, sheet_name='장부내역에 없는 케이스', index=False)
     print("결과 파일이 생성되었습니다!")
 
 if __name__ == '__main__':
